@@ -39,7 +39,7 @@ public class AgenciaApplication {
 	
 	private static void init(ObjectOutputStream outputStream, ObjectInputStream inputStream) {		
         try {
-        	Object serverMessage = inputStream.readObject();
+        	Object serverMessage = inputStream.readObject(); // Recibir información
 
             ModelFactoryController modelFactoryController = new ModelFactoryController();
             modelFactoryController = ModelFactoryController.getInstance();

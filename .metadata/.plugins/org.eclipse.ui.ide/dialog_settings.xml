@@ -6,6 +6,9 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="C:\Users\usuario\Desktop\agencia\co.edu.uniquindio.servidor"/>
+			<item value="C:\Users\usuario\Desktop\agencia\co.edu.uniquindio.chat"/>
+			<item value="C:\Users\usuario\Desktop\agencia\co.edu.uniquindio.agencia"/>
 			<item value="C:\Users\Paola\Desktop\Full\co.edu.uniquindio.servidor"/>
 			<item value="C:\Users\Paola\Desktop\Full\co.edu.uniquindio.chat"/>
 			<item value="C:\Users\Paola\Desktop\Full\co.edu.uniquindio.agencia"/>
