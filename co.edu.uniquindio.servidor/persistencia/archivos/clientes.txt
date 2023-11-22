@@ -1,0 +1,10 @@
+1@@123456789@@Juan Pérez@@juan.perez@email.com@@1234567890@@Calle 123, Ciudad@@1@@1,4,5
+2@@987654321@@María Gómez@@maria.gomez@email.com@@9876543210@@Avenida XYZ, Otra Ciudad@@2@@5,3,1
+3@@111222333@@Carlos López@@carlos.lopez@email.com@@5556667777@@Carrera 456, Otra Ciudad@@3@@2,3,7
+4@@444555666@@Ana Martínez@@ana.martinez@email.com@@9998887777@@Calle 789, Alguna Ciudad@@4@@7,8,9
+5@@777888999@@Pedro Ramírez@@pedro.ramirez@email.com@@1110002222@@Avenida ABC, Ciudad Lejana@@5@@10,5,3
+6@@222333444@@Laura Sánchez@@laura.sanchez@email.com@@3332221111@@Carrera 789, Otra Ciudad@@6@@1,5,10
+7@@555666777@@Sergio Rodríguez@@sergio.rodriguez@email.com@@8887776666@@Calle 555, Alguna Ciudad@@7@@5,3,1
+8@@888999000@@Carmen González@@carmen.gonzalez@email.com@@6669998888@@Avenida XYZ, Ciudad Lejana@@8@@2,4,6
+9@@999000111@@Raúl Herrera@@raul.herrera@email.com@@1112223333@@Carrera 123, Otra Ciudad@@9@@9,5,3
+10@@666777888@@Isabel Torres@@isabel.torres@email.com@@4443332222@@Calle 333, Alguna Ciudad@@10@@1,5,7

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.lang.Integer"/>
+    <fullyQualifiedTypeName name="java.util.Map"/>
+    <fullyQualifiedTypeName name="java.util.LinkedHashMap"/>
+    <fullyQualifiedTypeName name="co.edu.uniquindio.agencia.model.PaqueteTuristico"/>
+    <fullyQualifiedTypeName name="co.edu.uniquindio.agencia.model.GuiaTuristico"/>
+    <fullyQualifiedTypeName name="org.eclipse.swt.custom.ScrolledComposite"/>
+    <fullyQualifiedTypeName name="org.eclipse.swt.layout.FillLayout"/>
+    <fullyQualifiedTypeName name="org.eclipse.swt.graphics.GC"/>
+</qualifiedTypeNameHistroy>

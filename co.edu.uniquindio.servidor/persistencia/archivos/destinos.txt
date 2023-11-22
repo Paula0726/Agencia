@@ -1,0 +1,10 @@
+1@@Playa Paradisíaca@@Ciudad del Sol@@Un lugar increíble para disfrutar del sol y la arena@@imagen1.jpeg,imagen2.jpeg,imagen3.jpeg@@Cálido@@5@@4,5,4,3,5,4@@Muy bonita playa, excelente clima, volvería de nuevo.,Bonito
+2@@Montañas Misteriosas@@Pueblo de las Nubes@@Descubre la magia de las montañas y su misteriosa niebla@@imagen4.jpeg@@Fresco@@6@@5,4,6,5,6@@Increíbles vistas, clima fresco, perfecto para hacer senderismo.
+3@@Ciudad Histórica@@Vieja Ciudad@@Explora la historia en cada rincón de esta ciudad antigua@@imagen5.jpeg@@Templado@@3@@3,4,3,2,4@@Interesante historia, arquitectura asombrosa, pero algo descuidada.
+4@@Selva Aventurera@@Amazonía Salvaje@@Vive la aventura en la selva y descubre su flora y fauna@@imagen6.jpeg@@Húmedo@@7@@5,5,6,7,7@@Experiencia única, diversidad de vida salvaje, muy recomendado.
+5@@Desierto Infinito@@Dunas Sin Fin@@Experimenta la inmensidad del desierto y sus dunas sin fin@@imagen7.jpeg@@Árido@@5@@4,5,5,4,3@@Impresionante desierto, atardeceres hermosos, un poco caluroso.
+6@@Pueblo Pintoresco@@Rinconcito Colorido@@Disfruta de la belleza de un pueblo lleno de colores y encanto@@imagen8.jpeg@@Templado@@1@@1,2,1,1,1@@No me gustó, poco para hacer, paisaje bonito pero no mucho más.
+7@@Lago Sereno@@Tranquilidad Acuática@@Relájate junto al lago y disfruta de la serenidad del agua@@imagen9.jpeg@@Templado@@9@@9,8,9,10,9@@Increíblemente relajante, paisaje hermoso, ideal para descansar.
+8@@Bosque Encantado@@Rincón Mágico@@Adéntrate en un bosque lleno de encanto y magia@@imagen22.jpeg,imagen10.jpeg@@Fresco@@8@@8,9,8,8,7@@Magia en cada rincón, aire fresco, experiencia mística.
+9@@Cascada Misteriosa@@Río Escondido@@Descubre la belleza de una cascada en medio de la naturaleza@@imagen11.jpeg@@Fresco@@8@@7,8,9,8,8@@Cascada impresionante, senderos hermosos, experiencia refrescante.
+10@@Volcán Activo@@Montaña Ardiente@@Observa la fuerza de la naturaleza en un volcán en plena actividad@@imagen12.jpeg@@Cálido@@4@@5,4,5,6,5@@Impresionante ver la lava, experiencia única, pero un poco peligroso.
