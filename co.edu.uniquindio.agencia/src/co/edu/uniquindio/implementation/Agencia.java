@@ -50,8 +50,7 @@ public class Agencia implements IAgenciaService {
 	ArrayList<GuiaTuristico> listaGuiasTuristicos = new ArrayList<>();
 	ArrayList<PaqueteTuristico> listaPaquetesTuristicos = new ArrayList<>();
 	ArrayList<Reserva> listaReservas = new ArrayList<>();
-		
-	
+			
 	public Agencia init() {
 		administrador = new AdministradorImpl(this);
 		usuario = new UsuarioImpl(this);

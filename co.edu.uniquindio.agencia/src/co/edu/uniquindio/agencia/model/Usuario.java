@@ -16,8 +16,11 @@ public class Usuario implements Serializable {
     private String username;
     private String contrasena;
     
+    // Método para convertir la información del cliente en una cadena de texto
     public String convertirEnCadena() {
         StringBuilder cadena = new StringBuilder();
+
+        // Concatenación de los atributos del cliente separados por "@@"
         cadena.append(id)
                 .append("@@").append(username)
                 .append("@@").append(contrasena);

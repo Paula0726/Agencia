@@ -448,52 +448,74 @@ public class GuiaTuristicoView extends ApplicationWindow {
     	return blank;
     }
     
+ // Método para guardar una acción en el mapa de acciones a deshacer
     private void guardarAccionDeshacer(String accion, String informacionAccion) {
-    	accionesDeshacerMapa.put(accion, informacionAccion);
+        accionesDeshacerMapa.put(accion, informacionAccion);
     }
-    
+
+    // Método para guardar una acción en el mapa de acciones a rehacer
     private void guardarAccionRehacer(String accion, String informacionAccion) {
-    	accionesRehacerMapa.put(accion, informacionAccion);        
+        accionesRehacerMapa.put(accion, informacionAccion);        
     }
-    
+
+    // Método para deshacer la última acción realizada
     private void deshacer() {
         if (!accionesDeshacerMapa.isEmpty()) {
+            // Obtener la última acción realizada y su información
             Map.Entry<String, String> ultimaAccion = accionesDeshacerMapa.entrySet().iterator().next();
             String accion = ultimaAccion.getKey();
             String informacionAccion = ultimaAccion.getValue();
 
+            // Eliminar la acción deshecha del mapa
             accionesDeshacerMapa.remove(accion);
+
+            // Llamar al método para almacenar la acción (realizar la acción inversa)
             almacenarAccion(accion, informacionAccion);            
-            
-            MessageDialog.openInformation(getShell(), "Deshacer", "Acción retornada con exito.");
+
+            // Mostrar un mensaje de éxito
+            MessageDialog.openInformation(getShell(), "Deshacer", "Acción retornada con éxito.");
         } else {
+            // Mostrar un mensaje indicando que no hay acciones para deshacer
             MessageDialog.openInformation(getShell(), "Deshacer", "No hay acciones para deshacer.");                
         }
     }
-    
+
+    // Método para rehacer la última acción deshecha
     private void rehacer() {
         if (!accionesRehacerMapa.isEmpty()) {
+            // Obtener la última acción deshecha y su información
             Map.Entry<String, String> ultimaAccion = accionesRehacerMapa.entrySet().iterator().next();
             String accion = ultimaAccion.getKey();
             String informacionAccion = ultimaAccion.getValue();
 
+            // Eliminar la acción a rehacer del mapa
             accionesRehacerMapa.remove(accion);
+
+            // Llamar al método para almacenar la acción (realizar la acción inversa)
             almacenarAccion(accion, informacionAccion);
             
-            MessageDialog.openInformation(getShell(), "Rehacer", "Acción retornada con exito.");
+            // Mostrar un mensaje de éxito
+            MessageDialog.openInformation(getShell(), "Rehacer", "Acción retornada con éxito.");
         } else {
+            // Mostrar un mensaje indicando que no hay acciones para rehacer
             MessageDialog.openInformation(getShell(), "Rehacer", "No hay acciones para rehacer.");                
         }
     }
-    
+
+    // Método para almacenar una acción, realizando la acción inversa según el tipo de acción
     private void almacenarAccion(String accion, String informacionAccion) {
-    	switch(accion) {
-	    	case "crear-guia":
-	    		agencia.crearGuiaTuristico(informacionAccion);
-	    	case "actualizar-guia":
-	    		agencia.actualizarGuiaTuristico(null, informacionAccion);
-	    	case "eliminar-guia":
-	    		agencia.eliminarGuiaTuristico(informacionAccion);
-	    }
-    }    
+        switch(accion) {
+            case "crear-guia":
+                agencia.crearGuiaTuristico(informacionAccion);
+                break;
+            case "actualizar-guia":
+                agencia.actualizarGuiaTuristico(null, informacionAccion);
+                break;
+            case "eliminar-guia":
+                agencia.eliminarGuiaTuristico(informacionAccion);
+                break;
+            // Agregar más casos según sea necesario para otros tipos de acciones
+        }
+    }
+
 }

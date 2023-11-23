@@ -56,19 +56,34 @@ public class MisReservasView extends ApplicationWindow {
     TableViewer tableConfirmadasViewer; 
     TableViewer tablePasadasViewer; 
     
+    // Clase MisReservasView que extiende de la clase Dialog de SWT
     public MisReservasView(Shell parentShell) {
+        // Llama al constructor de la clase base (Dialog)
         super(parentShell);
+
+        // Obtiene la instancia del controlador de la fábrica de modelos
         modelFactoryController = ModelFactoryController.getInstance();
+
+        // Obtiene la instancia de la agencia a través del controlador de la fábrica de modelos
         agencia = modelFactoryController.getAgencia();
+
+        // Obtiene la sesión del cliente desde la instancia de la agencia
         clienteSession = agencia.getClienteSession();
+
+        // Filtra y recoge en la lista 'pendientes' las reservas futuras del cliente con estado 'PENDIENTE'
         pendientes = agencia.listarReservasFuturasCliente(clienteSession).stream()
-        		.filter(reserva -> reserva.getEstadoReserva() == EstadoReserva.PENDIENTE)
-                .collect(Collectors.toList());
+            .filter(reserva -> reserva.getEstadoReserva() == EstadoReserva.PENDIENTE)
+            .collect(Collectors.toList());
+
+        // Filtra y recoge en la lista 'confirmadas' las reservas futuras del cliente con estado 'CONFIRMADA'
         confirmadas = agencia.listarReservasFuturasCliente(clienteSession).stream()
-        		.filter(reserva -> reserva.getEstadoReserva() == EstadoReserva.CONFIRMADA)
-                .collect(Collectors.toList());;
+            .filter(reserva -> reserva.getEstadoReserva() == EstadoReserva.CONFIRMADA)
+            .collect(Collectors.toList());;
+
+        // Obtiene y guarda en la lista 'pasadas' las reservas pasadas del cliente
         pasadas = agencia.listarReservasPasadasCliente(clienteSession);
     }
+
 
     @Override
     protected Control createContents(Composite parent) { 
@@ -147,43 +162,63 @@ public class MisReservasView extends ApplicationWindow {
     	data.widthHint = 500;
     	tableConfirmadas.setLayoutData(data);
     	
+    	// Este bloque de código define un SelectionListener para el botón de enviar en un proyecto Java SWT.
+
     	buttonEnviar.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if (pendienteSeleccionada != null) {            		
-            		Reserva reservaCopy = crearReservaCopy(pendienteSeleccionada); 
-            		pendienteSeleccionada.setEstadoReserva(EstadoReserva.CONFIRMADA);
-            		pendientes.remove(pendienteSeleccionada);
-            		confirmadas.add(pendienteSeleccionada);
+    	    @Override
+    	    public void widgetSelected(SelectionEvent e) {
+    	        // Verifica si hay una reserva pendiente seleccionada.
+    	        if (pendienteSeleccionada != null) { 
+    	            // Crea una copia de la reserva pendiente.
+    	            Reserva reservaCopy = crearReservaCopy(pendienteSeleccionada); 
+    	            
+    	            // Actualiza el estado de la reserva pendiente a CONFIRMADA.
+    	            pendienteSeleccionada.setEstadoReserva(EstadoReserva.CONFIRMADA);
+    	            
+    	            // Elimina la reserva pendiente de la lista de pendientes y la agrega a la lista de confirmadas.
+    	            pendientes.remove(pendienteSeleccionada);
+    	            confirmadas.add(pendienteSeleccionada);
 
-            	    String mensaje = agencia.actualizarReserva(reservaCopy, pendienteSeleccionada.convertirEnCadena());
-                	MessageDialog.openInformation(getShell(), "Reserva actualizada", mensaje);
+    	            // Actualiza la reserva en la agencia y muestra un cuadro de diálogo informativo.
+    	            String mensaje = agencia.actualizarReserva(reservaCopy, pendienteSeleccionada.convertirEnCadena());
+    	            MessageDialog.openInformation(getShell(), "Reserva actualizada", mensaje);
 
-            	    pendienteSeleccionada = null;
-            	    tablePendientesViewer.refresh();
-            	    tableConfirmadasViewer.refresh();
-            	} 
-            }
-        });
-    	
+    	            // Reinicializa la reserva seleccionada y actualiza las vistas de las tablas.
+    	            pendienteSeleccionada = null;
+    	            tablePendientesViewer.refresh();
+    	            tableConfirmadasViewer.refresh();
+    	        } 
+    	    }
+    	});
+
+    	// Este bloque de código define un SelectionListener para el botón de regresar en un proyecto Java SWT.
     	buttonRegresar.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if (confirmadaSeleccionada != null) {
-            		Reserva reservaCopy = crearReservaCopy(confirmadaSeleccionada); 
-            	    confirmadaSeleccionada.setEstadoReserva(EstadoReserva.PENDIENTE);
-            	    confirmadas.remove(confirmadaSeleccionada);
-            	    pendientes.add(confirmadaSeleccionada);
-            	    
-            	    String mensaje = agencia.actualizarReserva(reservaCopy, confirmadaSeleccionada.convertirEnCadena());
-                	MessageDialog.openInformation(getShell(), "Reserva actualizada", mensaje);
+    	    @Override
+    	    public void widgetSelected(SelectionEvent e) {
+    	        // Verifica si hay una reserva confirmada seleccionada.
+    	        if (confirmadaSeleccionada != null) {
+    	            // Crea una copia de la reserva confirmada.
+    	            Reserva reservaCopy = crearReservaCopy(confirmadaSeleccionada); 
+    	            
+    	            // Actualiza el estado de la reserva confirmada a PENDIENTE.
+    	            confirmadaSeleccionada.setEstadoReserva(EstadoReserva.PENDIENTE);
+    	            
+    	            // Elimina la reserva confirmada de la lista de confirmadas y la agrega a la lista de pendientes.
+    	            confirmadas.remove(confirmadaSeleccionada);
+    	            pendientes.add(confirmadaSeleccionada);
+    	            
+    	            // Actualiza la reserva en la agencia y muestra un cuadro de diálogo informativo.
+    	            String mensaje = agencia.actualizarReserva(reservaCopy, confirmadaSeleccionada.convertirEnCadena());
+    	            MessageDialog.openInformation(getShell(), "Reserva actualizada", mensaje);
 
-            	    confirmadaSeleccionada = null;
-            	    tableConfirmadasViewer.refresh();
-            	    tablePendientesViewer.refresh();
-            	}
-            }
-        });
+    	            // Reinicializa la reserva seleccionada y actualiza las vistas de las tablas.
+    	            confirmadaSeleccionada = null;
+    	            tableConfirmadasViewer.refresh();
+    	            tablePendientesViewer.refresh();
+    	        }
+    	    }
+    	});
+
     	
     	Label separador = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
         data = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -214,33 +249,46 @@ public class MisReservasView extends ApplicationWindow {
         grpButtons.setLayoutData(data);
         grpButtons.setLayout(new GridLayout(2, false));
     	
-    	Button btnCalificarDestino = new Button(grpButtons, SWT.PUSH);
-    	btnCalificarDestino.setText("Calificar destino");
-    	btnCalificarDestino.setLayoutData(new GridData(SWT.NONE, SWT.NONE, true, false));    	
-    	btnCalificarDestino.addSelectionListener(new SelectionAdapter() {
+        // Crear un botón para calificar el destino
+        Button btnCalificarDestino = new Button(grpButtons, SWT.PUSH);
+        btnCalificarDestino.setText("Calificar destino");
+        btnCalificarDestino.setLayoutData(new GridData(SWT.NONE, SWT.NONE, true, false));
+
+        // Agregar un listener para manejar el evento de selección del botón de calificar destino
+        btnCalificarDestino.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-            	if (pasadaSeleccionada != null) {
-            		abrirCalificarDestino(Display.getCurrent(), pasadaSeleccionada);
-            	} else {
-                	MessageDialog.openInformation(getShell(), "Calificar destino", "Selecciona una reserva pasada a calificar el destino.");
-            	}
+                // Verificar si se ha seleccionado una reserva pasada
+                if (pasadaSeleccionada != null) {
+                    // Abrir la ventana de calificación del destino con la reserva pasada seleccionada
+                    abrirCalificarDestino(Display.getCurrent(), pasadaSeleccionada);
+                } else {
+                    // Mostrar un mensaje de información si no se ha seleccionado ninguna reserva pasada
+                    MessageDialog.openInformation(getShell(), "Calificar destino", "Selecciona una reserva pasada a calificar el destino.");
+                }
             }
         });
-    	
-    	Button btnCalificarGuia = new Button(grpButtons, SWT.PUSH);
-    	btnCalificarGuia.setText("Calificar guía");
-    	btnCalificarGuia.setLayoutData(new GridData(SWT.NONE, SWT.NONE, true, false));        
-    	btnCalificarGuia.addSelectionListener(new SelectionAdapter() {
+
+        // Crear un botón para calificar al guía
+        Button btnCalificarGuia = new Button(grpButtons, SWT.PUSH);
+        btnCalificarGuia.setText("Calificar guía");
+        btnCalificarGuia.setLayoutData(new GridData(SWT.NONE, SWT.NONE, true, false));
+
+        // Agregar un listener para manejar el evento de selección del botón de calificar guía
+        btnCalificarGuia.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-            	if (pasadaSeleccionada != null) {
-            		abrirCalificarGuia(Display.getCurrent(), pasadaSeleccionada);
-            	} else {
-                	MessageDialog.openInformation(getShell(), "Calificar destino", "Selecciona una reserva pasada a calificar el guía.");
-            	}
+                // Verificar si se ha seleccionado una reserva pasada
+                if (pasadaSeleccionada != null) {
+                    // Abrir la ventana de calificación del guía con la reserva pasada seleccionada
+                    abrirCalificarGuia(Display.getCurrent(), pasadaSeleccionada);
+                } else {
+                    // Mostrar un mensaje de información si no se ha seleccionado ninguna reserva pasada
+                    MessageDialog.openInformation(getShell(), "Calificar destino", "Selecciona una reserva pasada a calificar el guía.");
+                }
             }
         });
+
     	
     	
     	return parent;
@@ -408,11 +456,6 @@ public class MisReservasView extends ApplicationWindow {
         shell.pack();
         shell.open();
     }
-    
-    
-    
-    
-    
     
     private Table createReservasTable(TableViewer tableViewer, String tableIs) {
     	Table table = tableViewer.getTable();

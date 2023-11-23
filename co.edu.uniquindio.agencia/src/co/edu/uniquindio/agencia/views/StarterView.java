@@ -40,8 +40,5 @@ public class StarterView extends ApplicationWindow {
     private void abrirVista() {
     	PrincipalView view = new PrincipalView(getShell());
     	view.open();   
-    
-    	//PaqueteTuristicoView view = new PaqueteTuristicoView(getShell());
-    	//view.open();
     }
 }

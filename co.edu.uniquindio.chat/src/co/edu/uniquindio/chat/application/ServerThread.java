@@ -5,16 +5,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 public class ServerThread extends Thread {
-    private Socket clientSocket;
-    private boolean appInit = false;
-    
-    private ObjectOutputStream outputStream;
-    private ObjectInputStream inputStream;
-        
+    private Socket clientSocket;  // Socket del cliente
+    private boolean appInit = false;  // Bandera para la inicialización de la aplicación
+
+    private ObjectOutputStream outputStream;  // Flujo de salida de objetos
+    private ObjectInputStream inputStream;  // Flujo de entrada de objetos
+
+    // Constructor que recibe el socket del cliente
     public ServerThread(Socket socket) {
         this.clientSocket = socket;
     }
@@ -22,35 +20,31 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
-        	this.outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+            // Inicialización de flujos de entrada y salida
+            this.outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
             this.inputStream = new ObjectInputStream(clientSocket.getInputStream());
-        	
-        	while (true) {
-        		handleInput();
-        	}
-                       
-        } catch (IOException | ClassNotFoundException e){
-        	//e.printStackTrace();
-        };
+
+            // Bucle infinito para manejar la entrada del cliente continuamente
+            while (true) {
+                handleInput();
+            }
+
+        } catch (IOException | ClassNotFoundException e) {
+            // Manejo de excepciones (comentado para evitar impresión de pila)
+            // e.printStackTrace();
+        }
     }
-    
-    
-    private void handleInput() throws ClassNotFoundException, IOException {    	            
-		Object data = this.inputStream.readObject();
-    	if (data != null) {
-    		//String string = (String) data;    		
-    		outputStream.writeObject("El equipo de soporte se encuentra inactivo.");
+
+    // Método para manejar la entrada del cliente
+    private void handleInput() throws ClassNotFoundException, IOException {
+        // Lectura del objeto enviado por el cliente
+        Object data = this.inputStream.readObject();
+
+        // Verificación de si se recibió algún dato
+        if (data != null) {
+            // Envío de un mensaje de respuesta al cliente
+            outputStream.writeObject("El equipo de soporte se encuentra inactivo.");
             outputStream.flush();
-        		
-    	}		
-		
-    	/*
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode jsonNode = objectMapper.readTree(string);
-		String[] instruccion = jsonNode.get("accion").asText().split("-");                
-        String base_instruccion = instruccion[0];
-        String entidad_instruccion = instruccion[1];
-        String datos = jsonNode.get("datos").asText();     
-        */          
+        }
     }
 }

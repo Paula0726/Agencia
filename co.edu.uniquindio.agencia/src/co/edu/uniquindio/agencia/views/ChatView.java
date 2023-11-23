@@ -11,16 +11,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,11 +24,11 @@ import java.util.TimerTask;
 public class ChatView extends ApplicationWindow {
 
     private Socket socket;
-	private Timer timer;
-	
-	ObjectOutputStream outputStream;
-	ObjectInputStream inputStream;
-	
+    private Timer timer;
+    
+    ObjectOutputStream outputStream;
+    ObjectInputStream inputStream;
+    
     private int cooldown;
     
     private Text chatText;
@@ -46,10 +42,11 @@ public class ChatView extends ApplicationWindow {
 
     @Override
     protected Control createContents(Composite parent) {
-    	getShell().setText("Chat");        
+        getShell().setText("Chat");        
 
         parent.setLayout(new GridLayout(1, false));
-    	
+        
+        // Grupo para la ventana de chat
         Group container_chat = new Group(parent, SWT.NONE);
         container_chat.setLayout(new GridLayout(1, false));
         container_chat.setText("Ventana de chat");
@@ -60,6 +57,7 @@ public class ChatView extends ApplicationWindow {
         data.widthHint = 300;
         chatText.setLayoutData(data);
 
+        // Grupo para el mensaje a enviar
         Group container_grp = new Group(parent, SWT.NONE);
         container_grp.setText("Escribe un mensaje:");
         container_grp.setLayout(new GridLayout(1, false)); 
@@ -70,6 +68,7 @@ public class ChatView extends ApplicationWindow {
         data.widthHint = 300;
         mensajeText.setLayoutData(data);
         
+        // Botón para enviar el mensaje
         Button enviarButton = new Button(parent, SWT.PUSH);
         enviarButton.setText("Enviar");
         enviarButton.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
@@ -85,11 +84,12 @@ public class ChatView extends ApplicationWindow {
         return parent;
     }
 
+    // Método para establecer la conexión inicial
     private void iniciarConexion() {
         try {
             socket = new Socket("localhost", 50000);
             outputStream = new ObjectOutputStream(socket.getOutputStream());
-        	inputStream = new ObjectInputStream(socket.getInputStream());
+            inputStream = new ObjectInputStream(socket.getInputStream());
 
             timer = new Timer();
             timer.schedule(new TimerTask() {
@@ -101,10 +101,12 @@ public class ChatView extends ApplicationWindow {
 
             new Thread(() -> escucharMensajes(inputStream)).start();
         } catch (IOException e) {
-        	//e.printStackTrace();
+            // En caso de error, se puede imprimir o manejar de otra forma
+            //e.printStackTrace();
         }
     }
 
+    // Método para escuchar mensajes entrantes
     private void escucharMensajes(ObjectInputStream inputStream) {
         try {
             while (true) {
@@ -115,29 +117,29 @@ public class ChatView extends ApplicationWindow {
                 }
             }
         } catch (IOException e) {
-        	System.out.println("Conexión cerrada");
+            System.out.println("Conexión cerrada");
             //e.printStackTrace();
         } catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-		}
-    }
-
-    private void enviarMensaje(ObjectOutputStream outputStream) {
-        String mensaje = mensajeText.getText();
-        if (!mensaje.isEmpty()) {
-        	try {
-				outputStream.writeObject(mensaje);
-				chatText.append("Cliente: " + mensaje + "\n");
-	            mensajeText.setText("");
-	            reiniciarTemporizador();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				//e.printStackTrace();
-			};            
+            //e.printStackTrace();
         }
     }
 
+    // Método para enviar un mensaje al servidor
+    private void enviarMensaje(ObjectOutputStream outputStream) {
+        String mensaje = mensajeText.getText();
+        if (!mensaje.isEmpty()) {
+            try {
+                outputStream.writeObject(mensaje);
+                chatText.append("Cliente: " + mensaje + "\n");
+                mensajeText.setText("");
+                reiniciarTemporizador();
+            } catch (IOException e) {
+                //e.printStackTrace();
+            };            
+        }
+    }
+
+    // Método para cerrar la conexión
     private void cerrarConexion() {
         try {
             timer.cancel();
@@ -145,6 +147,10 @@ public class ChatView extends ApplicationWindow {
                 Display.getDefault().asyncExec(() -> {
                     if (!getShell().isDisposed()) {
                         getShell().close();
+                        
+                        // Abre la vista principal al cerrar la conexión
+                        PrincipalView view = new PrincipalView(getShell());
+                        view.open();
                     }
                 });
                 socket.close();
@@ -154,7 +160,7 @@ public class ChatView extends ApplicationWindow {
         }
     }
 
-
+    // Método para reiniciar el temporizador de cierre de conexión
     private void reiniciarTemporizador() {
         timer.cancel();
         timer = new Timer();
@@ -166,5 +172,3 @@ public class ChatView extends ApplicationWindow {
         }, cooldown);
     }
 }
-
-

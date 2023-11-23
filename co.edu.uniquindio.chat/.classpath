@@ -6,8 +6,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/Users/usuario/Desktop/agencia/co.edu.uniquindio.chat/libs64/jackson-annotations-2.13.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/usuario/Desktop/agencia/co.edu.uniquindio.chat/libs64/jackson-core-2.13.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/usuario/Desktop/agencia/co.edu.uniquindio.chat/libs64/jackson-databind-2.13.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Escritorio/Full/co.edu.uniquindio.chat/libs64/jackson-annotations-2.13.5.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Escritorio/Full/co.edu.uniquindio.chat/libs64/jackson-core-2.13.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Admin/OneDrive/Escritorio/Full/co.edu.uniquindio.chat/libs64/jackson-databind-2.13.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

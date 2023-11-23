@@ -19,43 +19,73 @@ import co.edu.uniquindio.agencia.model.Usuario;
 import co.edu.uniquindio.implementation.Agencia;
 
 public class Persistencia {
-    public static void cargarData(Agencia agencia, Object data) {
-        String jsonString = (String) data;
+	/**
+	 * Método estático para cargar datos desde un objeto JSON a una instancia de la clase Agencia.
+	 * @param agencia Instancia de la clase Agencia.
+	 * @param data Objeto que contiene datos en formato JSON.
+	 */
+	public static void cargarData(Agencia agencia, Object data) {
+	    // Convierte el objeto data a una cadena de texto (String) en formato JSON.
+	    String jsonString = (String) data;
 
-        ObjectMapper objectMapper = new ObjectMapper();
+	    // Inicializa un objeto ObjectMapper para mapear objetos JSON a instancias de clases Java.
+	    ObjectMapper objectMapper = new ObjectMapper();
 
-        try {
-            JsonNode jsonNode = objectMapper.readTree(jsonString);
+	    try {
+	        // Lee el árbol JSON a partir de la cadena de texto JSON.
+	        JsonNode jsonNode = objectMapper.readTree(jsonString);
 
-            Persistencia.cargarUsuarios(agencia, jsonNode.get("usuarios"));
-            Persistencia.cargarClientes(agencia, jsonNode.get("clientes"));
-            Persistencia.cargarDestinos(agencia, jsonNode.get("destinos"));
-            Persistencia.cargarGuias(agencia, jsonNode.get("guias"));
-            Persistencia.cargarPaquetes(agencia, jsonNode.get("paquetes"));
-            Persistencia.cargarReservas(agencia, jsonNode.get("reservas"));              
-  
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    
-    private static void cargarUsuarios(Agencia agencia, JsonNode usuarios) {
-        cargarUsuariosRecursivo(agencia, usuarios, 0);
-    }
+	        // Carga los diferentes tipos de datos en la instancia de Agencia.
+	        Persistencia.cargarUsuarios(agencia, jsonNode.get("usuarios"));
+	        Persistencia.cargarClientes(agencia, jsonNode.get("clientes"));
+	        Persistencia.cargarDestinos(agencia, jsonNode.get("destinos"));
+	        Persistencia.cargarGuias(agencia, jsonNode.get("guias"));
+	        Persistencia.cargarPaquetes(agencia, jsonNode.get("paquetes"));
+	        Persistencia.cargarReservas(agencia, jsonNode.get("reservas"));
 
-    private static void cargarUsuariosRecursivo(Agencia agencia, JsonNode usuarios, int index) {
-        if (index < usuarios.size()) {
-            JsonNode usuarioNode = usuarios.get(index);
-            String usuarioInfo = usuarioNode.asText();
-            String[] contenidoSplit = usuarioInfo.split("@@");
+	    } catch (Exception e) {
+	        // Imprime la traza de la excepción en caso de error.
+	        e.printStackTrace();
+	    }
+	}
 
-            Usuario usuario = new Usuario();
-            instanciarUsuario(usuario, contenidoSplit);
-            agencia.getListaUsuarios().add(usuario);
+	/**
+	 * Método privado para cargar usuarios desde un nodo JSON a una instancia de la clase Agencia.
+	 * @param agencia Instancia de la clase Agencia.
+	 * @param usuarios Nodo JSON que contiene la información de usuarios.
+	 */
+	private static void cargarUsuarios(Agencia agencia, JsonNode usuarios) {
+	    // Llama al método recursivo para cargar usuarios.
+	    cargarUsuariosRecursivo(agencia, usuarios, 0);
+	}
 
-            cargarUsuariosRecursivo(agencia, usuarios, index + 1);
-        }
-    } 
+	/**
+	 * Método recursivo para cargar usuarios desde un nodo JSON a una instancia de la clase Agencia.
+	 * @param agencia Instancia de la clase Agencia.
+	 * @param usuarios Nodo JSON que contiene la información de usuarios.
+	 * @param index Índice para recorrer los elementos del nodo JSON.
+	 */
+	private static void cargarUsuariosRecursivo(Agencia agencia, JsonNode usuarios, int index) {
+	    // Verifica si hay más elementos en el nodo JSON.
+	    if (index < usuarios.size()) {
+	        // Obtiene el nodo del usuario actual.
+	        JsonNode usuarioNode = usuarios.get(index);
+	        // Obtiene la información del usuario como cadena de texto.
+	        String usuarioInfo = usuarioNode.asText();
+	        // Divide la información en partes utilizando el separador "@@".
+	        String[] contenidoSplit = usuarioInfo.split("@@");
+
+	        // Crea una instancia de la clase Usuario.
+	        Usuario usuario = new Usuario();
+	        // Llama al método para inicializar el objeto Usuario.
+	        instanciarUsuario(usuario, contenidoSplit);
+	        // Agrega el usuario a la lista de usuarios de la agencia.
+	        agencia.getListaUsuarios().add(usuario);
+
+	        // Llama recursivamente al método para el siguiente usuario.
+	        cargarUsuariosRecursivo(agencia, usuarios, index + 1);
+	    }
+	}
     
     private static void cargarClientes(Agencia agencia, JsonNode clientes) {
         cargarClientesRecursivo(agencia, clientes, 0);
@@ -165,6 +195,7 @@ public class Persistencia {
                 .filter(usuario -> usuario.getId().equals(contenidoSplit[6]))
                 .findFirst()
                 .orElse(null);
+        cliente.setUsuario(usuarioEncontrado);
         List<String> listaDestinosBuscados = Arrays.asList(contenidoSplit[7].split(","));
         cliente.setDestinosBuscados(listaDestinosBuscados);
         return cliente;

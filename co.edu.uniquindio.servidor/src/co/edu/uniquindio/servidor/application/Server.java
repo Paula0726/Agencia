@@ -21,6 +21,7 @@ public class Server {
                 Socket clientSocket = serverSocket.accept();
                 System.out.println("Cliente conectado desde " + clientSocket.getInetAddress());
 
+                // Crear un hilo para la conexión con el cliente
                 new ServerThread(clientSocket).start();
             }
         } catch (IOException e) {

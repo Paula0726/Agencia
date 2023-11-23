@@ -22,9 +22,11 @@ public class Reserva implements Serializable {
     private GuiaTuristico guiaTuristico;
     private EstadoReserva estadoReserva;
     
+ // Método para convertir la información del cliente en una cadena de texto
     public String convertirEnCadena() {
         StringBuilder cadena = new StringBuilder();
 
+        // Concatenación de los atributos del cliente separados por "@@"
         cadena.append(id)
                 .append("@@")
                 .append(fechaSolicitud)

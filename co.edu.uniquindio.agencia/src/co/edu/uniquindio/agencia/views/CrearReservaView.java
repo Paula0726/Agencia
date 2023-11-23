@@ -109,10 +109,12 @@ public class CrearReservaView extends ApplicationWindow {
         dtFechaPlanificada.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-                LocalDate selectedDate = LocalDate.of(dtFechaPlanificada.getYear(), dtFechaPlanificada.getMonth(), dtFechaPlanificada.getDay());
+                LocalDate selectedDate = LocalDate.of(dtFechaPlanificada.getYear(), dtFechaPlanificada.getMonth() + 1, dtFechaPlanificada.getDay());
                 LocalDate currentDate = LocalDate.now();
+
                 if (selectedDate.isBefore(currentDate)) {
-                    dtFechaPlanificada.setDate(currentDate.getYear(), currentDate.getMonthValue(), currentDate.getDayOfMonth());
+                    // Ajustar la fecha seleccionada al día actual si es anterior
+                    dtFechaPlanificada.setDate(currentDate.getYear(), currentDate.getMonthValue() - 1, currentDate.getDayOfMonth());
                 }
             }
         });
@@ -167,9 +169,6 @@ public class CrearReservaView extends ApplicationWindow {
         data = new GridData(SWT.FILL, SWT.FILL, true, false);
 	    data.horizontalSpan = 2; 
 	    separador.setLayoutData(data);
-	    
-	    
-	    
     	
     	Group grpGuias = new Group(parent, SWT.NONE);
         data = new GridData(SWT.FILL, SWT.NONE, true, false);
@@ -204,36 +203,54 @@ public class CrearReservaView extends ApplicationWindow {
         data.horizontalSpan = 2;
     	data.heightHint = 85;
     	tableGuias.setLayoutData(data); 
-    	
-    	
-    	
-        Button btnCrearReserva = new Button(parent, SWT.PUSH);
-        btnCrearReserva.setText("Crear reserva");
-        data = new GridData(SWT.CENTER, SWT.CENTER, false, false);
-        data.horizontalSpan = 2;
-        data.widthHint = 150;
-        data.heightHint = 25;
-        btnCrearReserva.setLayoutData(data);
-        btnCrearReserva.addSelectionListener(new SelectionAdapter() {
-            @Override
-            public void widgetSelected(SelectionEvent e) {
-            	if(paqueteSeleccionado == null) {
-            		MessageDialog.openInformation(getShell(), "Crear reserva", "Debes seleccionar un paquete.");                		
-            	} else if (guiaSeleccionado == null) {
-            		MessageDialog.openInformation(getShell(), "Crear reserva", "Debes seleccionar un guía.");
-            	} else {
-            		List<LocalDate> fechasDisponibles = paqueteSeleccionado.getFechasDisponibles();  
-                    LocalDate selectedDate = LocalDate.of(dtFechaPlanificada.getYear(), dtFechaPlanificada.getMonth(), dtFechaPlanificada.getDay());
+    		
+    	// Creación de un botón para iniciar el proceso de creación de una reserva
+    	Button btnCrearReserva = new Button(parent, SWT.PUSH);
+    	btnCrearReserva.setText("Crear reserva");
 
-                    if (fechasDisponibles.contains(selectedDate)) {
-                    	String mensaje = agencia.crearReserva(fieldsToString());            	            		
-                    	MessageDialog.openInformation(getShell(), "Crear reserva", mensaje);
-                    } else {
-                    	MessageDialog.openInformation(getShell(), "Crear reserva", "La fecha de reserva no coincide con las fechas disponibles del paquete.");
-                    }                    
-            	}
-            }
-        });
+    	// Configuración de diseño del botón en el diseño de cuadrícula
+    	GridData data = new GridData(SWT.CENTER, SWT.CENTER, false, false);
+    	data.horizontalSpan = 2;
+    	data.widthHint = 150;
+    	data.heightHint = 25;
+    	btnCrearReserva.setLayoutData(data);
+
+    	// Agregar un escuchador de selección al botón
+    	btnCrearReserva.addSelectionListener(new SelectionAdapter() {
+    	    @Override
+    	    public void widgetSelected(SelectionEvent e) {
+    	        // Verificar si un paquete ha sido seleccionado
+    	        if(paqueteSeleccionado == null) {
+    	            MessageDialog.openInformation(getShell(), "Crear reserva", "Debes seleccionar un paquete.");                		
+    	        } 
+    	        // Verificar si se ha seleccionado un guía
+    	        else if (guiaSeleccionado == null) {
+    	            MessageDialog.openInformation(getShell(), "Crear reserva", "Debes seleccionar un guía.");
+    	        } 
+    	        // Verificar si la cantidad de personas no supera el cupo máximo del paquete
+    	        else if (Integer.parseInt(txtCantidadPersonas.getText()) > paqueteSeleccionado.getCupoMaximo()) {
+    	            MessageDialog.openInformation(getShell(), "Crear reserva", "La cantidad de personas suministrada supera el cupo máximo del paquete.");
+    	        } 
+    	        // Proceder con la creación de la reserva si todas las condiciones son satisfactorias
+    	        else {
+    	            // Obtener las fechas disponibles para el paquete seleccionado
+    	            List<LocalDate> fechasDisponibles = paqueteSeleccionado.getFechasDisponibles();  
+    	            LocalDate selectedDate = LocalDate.of(dtFechaPlanificada.getYear(), dtFechaPlanificada.getMonth() + 1, dtFechaPlanificada.getDay());
+
+    	            // Verificar si la fecha seleccionada está entre las fechas disponibles
+    	            if (fechasDisponibles.contains(selectedDate)) {
+    	                // Crear una reserva y mostrar un mensaje informativo
+    	                String mensaje = agencia.crearReserva(fieldsToString());            	            		
+    	                MessageDialog.openInformation(getShell(), "Crear reserva", mensaje);
+    	            } 
+    	            // Mostrar un mensaje si la fecha de reserva no coincide con las fechas disponibles del paquete
+    	            else {
+    	                MessageDialog.openInformation(getShell(), "Crear reserva", "La fecha de reserva no coincide con las fechas disponibles del paquete.");
+    	            }                    
+    	        }
+    	    }
+    	});
+
         
         separador = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
         data = new GridData(SWT.FILL, SWT.FILL, true, false);
@@ -243,12 +260,6 @@ public class CrearReservaView extends ApplicationWindow {
         
         return parent;
     } 
-    
-    
-    
-    
-    
-    
     
     private Table createPaquetesTable() {
         Table table = tablePaquetesViewer.getTable();
@@ -473,43 +484,64 @@ public class CrearReservaView extends ApplicationWindow {
         return table;
     }
     
+    /**
+     * Actualiza el filtro de la tabla de paquetes turísticos según la cadena de búsqueda.
+     *
+     * @param searchString Cadena de búsqueda para filtrar los paquetes turísticos.
+     */
     private void updatePaquetesTableFilter(String searchString) {
+        // Crear un filtro de visor personalizado para la tabla de paquetes turísticos
         ViewerFilter filter = new ViewerFilter() {
             @Override
             public boolean select(Viewer viewer, Object parentElement, Object element) {
+                // Verificar si el elemento es una instancia de PaqueteTuristico
                 if (element instanceof PaqueteTuristico) {
                     PaqueteTuristico paquete = (PaqueteTuristico) element;
+                    
+                    // Aplicar filtro a los atributos relevantes del paquete turístico
                     return paquete.getId().toLowerCase().contains(searchString.toLowerCase()) ||
                             paquete.getNombre().toLowerCase().contains(searchString.toLowerCase()) ||
                             paquete.getDuracion().toLowerCase().contains(searchString.toLowerCase()) ||
                             paquete.getDestinos().stream().anyMatch(destino ->
                                     destino.getNombre().toLowerCase().contains(searchString.toLowerCase())) ||
-                            String.join(", ", paquete.getServiciosAdicionales()).toLowerCase().contains(searchString.toLowerCase()) ||                            
+                            String.join(", ", paquete.getServiciosAdicionales()).toLowerCase().contains(searchString.toLowerCase()) ||
                             Double.toString(paquete.getPrecio()).contains(searchString) ||
                             Integer.toString(paquete.getCupoMaximo()).contains(searchString) ||
                             paquete.getFechasDisponibles().stream().anyMatch(fecha ->
                                     fecha.toString().toLowerCase().contains(searchString.toLowerCase()));
                 }
+                // Si no es una instancia de PaqueteTuristico, mostrar el elemento
                 return true;               
-            }
-                
+            }       
         };
         
+        // Aplicar el filtro a la tabla de paquetes turísticos
         tablePaquetesViewer.setFilters(new ViewerFilter[] { filter });
     }
-    
+
+    /**
+     * Actualiza el filtro de la tabla de guías turísticos según la cadena de búsqueda.
+     *
+     * @param searchString Cadena de búsqueda para filtrar los guías turísticos.
+     */
     private void updateGuiasTableFilter(String searchString) {
+        // Crear un filtro de visor personalizado para la tabla de guías turísticos
         ViewerFilter filter = new ViewerFilter() {
             @Override
             public boolean select(Viewer viewer, Object parentElement, Object element) {
+                // Verificar si el elemento es una instancia de GuiaTuristico
                 if (element instanceof GuiaTuristico) {
                     GuiaTuristico guia = (GuiaTuristico) element;
-                    double promedio = ((GuiaTuristico) element).getEstrellas().stream()
-                		    .mapToDouble(Integer::doubleValue)
-                		    .average()
-                		    .orElse(0.0);
-                	String resultadoFormateado = String.format("%.2f", promedio);
                     
+                    // Calcular el promedio de estrellas para el guía
+                    double promedio = guia.getEstrellas().stream()
+                            .mapToDouble(Integer::doubleValue)
+                            .average()
+                            .orElse(0.0);
+                    // Formatear el resultado a dos decimales
+                    String resultadoFormateado = String.format("%.2f", promedio);
+                    
+                    // Aplicar filtro a los atributos relevantes del guía turístico
                     return guia.getId().toLowerCase().contains(searchString.toLowerCase()) ||
                            guia.getIdentificacion().toLowerCase().contains(searchString.toLowerCase()) ||
                            guia.getNombreCompleto().toLowerCase().contains(searchString.toLowerCase()) ||
@@ -518,12 +550,15 @@ public class CrearReservaView extends ApplicationWindow {
                            resultadoFormateado.contains(searchString) ||
                            Double.toString(guia.getPrecio()).contains(searchString);
                 }
+                // Si no es una instancia de GuiaTuristico, mostrar el elemento
                 return true;
             }
         };
 
+        // Aplicar el filtro a la tabla de guías turísticos
         tableGuiasViewer.setFilters(new ViewerFilter[] { filter });
     }
+
 
     private String fieldsToString() {       
         String id = "0";

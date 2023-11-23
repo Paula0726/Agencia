@@ -18,17 +18,30 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Persistencia {	
-	public static final String path = "persistencia/archivos/";
-	public static final String RUTA_ARCHIVO_USUARIOS = "usuarios.txt";
-	public static final String RUTA_ARCHIVO_CLIENTES = "clientes.txt";
-	public static final String RUTA_ARCHIVO_DESTINOS = "destinos.txt";
-	public static final String RUTA_ARCHIVO_GUIAS = "guias.txt";
-	public static final String RUTA_ARCHIVO_PAQUETES = "paquetes.txt";
-	public static final String RUTA_ARCHIVO_RESERVAS = "reservas.txt";
-	
-	private static final Logger LOGGER = Logger.getLogger(Persistencia.class.getName());	
-	
-	public static void crearLogger() {
+    // Rutas de los archivos de persistencia
+    public static final String path = "persistencia/archivos/";
+    public static final String RUTA_ARCHIVO_USUARIOS = "usuarios.txt";
+    public static final String RUTA_ARCHIVO_CLIENTES = "clientes.txt";
+    public static final String RUTA_ARCHIVO_DESTINOS = "destinos.txt";
+    public static final String RUTA_ARCHIVO_GUIAS = "guias.txt";
+    public static final String RUTA_ARCHIVO_PAQUETES = "paquetes.txt";
+    public static final String RUTA_ARCHIVO_RESERVAS = "reservas.txt";
+    
+    // Logger para la aplicación
+    private static final Logger LOGGER = Logger.getLogger(Persistencia.class.getName());	
+    
+    // Mapeo de entidades a sus respectivos archivos
+    private static Map<String, String> mapa = Map.of(
+            "usuarios", RUTA_ARCHIVO_USUARIOS,
+            "clientes", RUTA_ARCHIVO_CLIENTES,
+            "destinos", RUTA_ARCHIVO_DESTINOS,
+            "guias", RUTA_ARCHIVO_GUIAS,
+            "paquetes", RUTA_ARCHIVO_PAQUETES,
+            "reservas", RUTA_ARCHIVO_RESERVAS
+    );
+    
+    // Método para inicializar el logger
+    public static void crearLogger() {
         FileHandler archivo;
         try {
             archivo = new FileHandler("persistencia/log/agencia_log.txt", true);
@@ -40,21 +53,14 @@ public class Persistencia {
         }
     }
 
+    // Método para realizar un registro en el logger
     public static void logging(String INFO) {
         LOGGER.log(Level.INFO, "INFO: " + INFO);
     }	
-	
-	private static Map<String, String> mapa = Map.of(
-			"usuarios", RUTA_ARCHIVO_USUARIOS,
-            "clientes", RUTA_ARCHIVO_CLIENTES,
-            "destinos", RUTA_ARCHIVO_DESTINOS,
-            "guias", RUTA_ARCHIVO_GUIAS,
-            "paquetes", RUTA_ARCHIVO_PAQUETES,
-            "reservas", RUTA_ARCHIVO_RESERVAS
-    );
-	
-	public static Map<String, ArrayList<String>> obtenerDatos() throws IOException {
-		Map<String, ArrayList<String>> datos = new HashMap<>();
+    
+    // Método para obtener los datos desde los archivos de persistencia
+    public static Map<String, ArrayList<String>> obtenerDatos() throws IOException {
+        Map<String, ArrayList<String>> datos = new HashMap<>();
         datos.put("usuarios", leerArchivo(path + RUTA_ARCHIVO_USUARIOS));
         datos.put("clientes", leerArchivo(path + RUTA_ARCHIVO_CLIENTES));
         datos.put("destinos", leerArchivo(path + RUTA_ARCHIVO_DESTINOS));
@@ -62,44 +68,48 @@ public class Persistencia {
         datos.put("paquetes", leerArchivo(path + RUTA_ARCHIVO_PAQUETES));
         datos.put("reservas", leerArchivo(path + RUTA_ARCHIVO_RESERVAS));
         
+        // Inicializar el logger y registrar el evento
         crearLogger();
         logging("DATOS INICIALIZADOS");
 
         return datos;
-	}
-	
-	public static ArrayList<String> leerArchivo(String ruta) throws IOException {
-		ArrayList<String> contenido = new ArrayList<String>();
-		FileReader fileReader = new FileReader(ruta);
-		BufferedReader buffer = new BufferedReader(fileReader);
-		
-		String linea = "";
-		while ((linea = buffer.readLine()) != null) {
-			contenido.add(linea);
-		}
-		
-		buffer.close();
-		fileReader.close();
-		
-		return contenido;		
-	}
-	
-	public static void escribirLinea(String entidad, String linea) {		
-		Path archivoPath = Path.of(path+mapa.get(entidad + "s"));
-		
-		try (Stream<String> lineas = Files.lines(archivoPath)) {
+    }
+    
+    // Método para leer un archivo y devolver su contenido como una lista de cadenas
+    public static ArrayList<String> leerArchivo(String ruta) throws IOException {
+        ArrayList<String> contenido = new ArrayList<String>();
+        FileReader fileReader = new FileReader(ruta);
+        BufferedReader buffer = new BufferedReader(fileReader);
+        
+        String linea = "";
+        while ((linea = buffer.readLine()) != null) {
+            contenido.add(linea);
+        }
+        
+        buffer.close();
+        fileReader.close();
+        
+        return contenido;        
+    }
+    
+    // Método para escribir una nueva línea en un archivo de persistencia
+    public static void escribirLinea(String entidad, String linea) {        
+        Path archivoPath = Path.of(path + mapa.get(entidad + "s"));
+        
+        try (Stream<String> lineas = Files.lines(archivoPath)) {
             List<String> lineasActualizadas = Stream.concat(lineas, Stream.of(linea))
                     .collect(Collectors.toList());
 
             Files.write(archivoPath, lineasActualizadas);
-            logging("NUEVO DATO AGREGADO: "+entidad);
+            logging("NUEVO DATO AGREGADO: " + entidad);
         } catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public static void actualizarLinea(String entidad, String nuevaInformacion) throws IOException {
-        Path archivoPath = Path.of(path+mapa.get(entidad + "s"));
+            e.printStackTrace();
+        }
+    }
+    
+    // Método para actualizar una línea en un archivo de persistencia
+    public static void actualizarLinea(String entidad, String nuevaInformacion) throws IOException {
+        Path archivoPath = Path.of(path + mapa.get(entidad + "s"));
 
         String id = nuevaInformacion.split("@@")[0];        
         List<String> lineas = Files.lines(archivoPath)
@@ -107,18 +117,18 @@ public class Persistencia {
                 .collect(Collectors.toList());
         
         Files.write(archivoPath, lineas, StandardOpenOption.TRUNCATE_EXISTING);
-        logging("DATO ACTUALIZADO: "+entidad);
-	}
-	
-	public static void eliminarLinea(String entidad, String id) throws IOException {
-        System.out.println("Entidad: "+entidad);		
-		Path archivoPath = Path.of(path+mapa.get(entidad + "s")); 
+        logging("DATO ACTUALIZADO: " + entidad);
+    }
+    
+    // Método para eliminar una línea en un archivo de persistencia
+    public static void eliminarLinea(String entidad, String id) throws IOException {
+        Path archivoPath = Path.of(path + mapa.get(entidad + "s")); 
         
         List<String> lineas = Files.lines(archivoPath)
                 .filter(linea -> !linea.startsWith(id + "@@"))
                 .collect(Collectors.toList());
 
         Files.write(archivoPath, lineas);
-        logging("DATO ELIMINADO: "+entidad);
+        logging("DATO ELIMINADO: " + entidad);
     }
 }

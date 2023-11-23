@@ -477,51 +477,73 @@ public class DestinoView extends ApplicationWindow {
     }
     
     public void guardarAccionDeshacer(String accion, String informacionAccion) {
-    	accionesDeshacerMapa.put(accion, informacionAccion);
+        // Método para almacenar una acción en el mapa de acciones para deshacer.
+        accionesDeshacerMapa.put(accion, informacionAccion);
     }
-    
+
     public void guardarAccionRehacer(String accion, String informacionAccion) {
-    	accionesRehacerMapa.put(accion, informacionAccion);        
+        // Método para almacenar una acción en el mapa de acciones para rehacer.
+        accionesRehacerMapa.put(accion, informacionAccion);
     }
-    
+
     public void deshacer() {
         if (!accionesDeshacerMapa.isEmpty()) {
+            // Obtiene la última acción realizada y su información asociada.
             Map.Entry<String, String> ultimaAccion = accionesDeshacerMapa.entrySet().iterator().next();
             String accion = ultimaAccion.getKey();
             String informacionAccion = ultimaAccion.getValue();
 
+            // Elimina la última acción del mapa de acciones para deshacer.
             accionesDeshacerMapa.remove(accion);
+
+            // Llama al método para almacenar la acción y su información.
             almacenarAccion(accion, informacionAccion);
-            
-            MessageDialog.openInformation(getShell(), "Deshacer", "Acción retornada con exito.");
+
+            // Muestra un mensaje informativo de éxito.
+            MessageDialog.openInformation(getShell(), "Deshacer", "Acción retornada con éxito.");
         } else {
-            MessageDialog.openInformation(getShell(), "Deshacer", "No hay acciones para deshacer.");                
+            // Muestra un mensaje informativo indicando que no hay acciones para deshacer.
+            MessageDialog.openInformation(getShell(), "Deshacer", "No hay acciones para deshacer.");
         }
     }
-    
+
     public void rehacer() {
         if (!accionesRehacerMapa.isEmpty()) {
+            // Obtiene la última acción deshecha y su información asociada.
             Map.Entry<String, String> ultimaAccion = accionesRehacerMapa.entrySet().iterator().next();
             String accion = ultimaAccion.getKey();
             String informacionAccion = ultimaAccion.getValue();
 
+            // Elimina la última acción del mapa de acciones para rehacer.
             accionesRehacerMapa.remove(accion);
+
+            // Llama al método para almacenar la acción y su información.
             almacenarAccion(accion, informacionAccion);
 
-            MessageDialog.openInformation(getShell(), "Rehacer", "Acción retornada con exito.");
+            // Muestra un mensaje informativo de éxito.
+            MessageDialog.openInformation(getShell(), "Rehacer", "Acción retornada con éxito.");
         } else {
-            MessageDialog.openInformation(getShell(), "Rehacer", "No hay acciones para rehacer.");                
+            // Muestra un mensaje informativo indicando que no hay acciones para rehacer.
+            MessageDialog.openInformation(getShell(), "Rehacer", "No hay acciones para rehacer.");
         }
     }
-    
+
     private void almacenarAccion(String accion, String informacionAccion) {
-    	switch(accion) {
-	    	case "crear-destino":
-	    		agencia.crearDestino(informacionAccion);
-	    	case "actualizar-destino":
-	    		agencia.actualizarDestino(null, informacionAccion);
-	    	case "eliminar-destino":
-	    		agencia.eliminarDestino(informacionAccion);
-	    }
+        // Método para determinar qué acción realizar en función del tipo de acción proporcionada.
+        switch(accion) {
+            case "crear-destino":
+                // Llama al método para crear un destino en la agencia.
+                agencia.crearDestino(informacionAccion);
+                break;
+            case "actualizar-destino":
+                // Llama al método para actualizar un destino en la agencia.
+                agencia.actualizarDestino(null, informacionAccion);
+                break;
+            case "eliminar-destino":
+                // Llama al método para eliminar un destino en la agencia.
+                agencia.eliminarDestino(informacionAccion);
+                break;
+        }
     }
+
 }

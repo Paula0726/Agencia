@@ -45,7 +45,7 @@ public class UsuarioImpl {
 			clienteNuevo = Persistencia.instanciarCliente(clienteNuevo, contenidoSplit, agencia);
             agencia.getListaClientes().add(clienteNuevo);
 			
-			util.enviarServidor("crear-cliente", data);
+			util.enviarServidor("crear-cliente", String.join("@@", contenidoSplit));
 		}
 	}
 	
@@ -104,7 +104,7 @@ public class UsuarioImpl {
             usuarioNuevo = Persistencia.instanciarUsuario(usuarioNuevo, contenidoSplit);
             agencia.getListaUsuarios().add(usuarioNuevo);
 
-            util.enviarServidor("crear-usuario", data);
+            util.enviarServidor("crear-usuario", String.join("@@", contenidoSplit));
         }
     }
 	
@@ -138,7 +138,7 @@ public class UsuarioImpl {
 		
         String[] contenidoSplit = data.split("@@");
 		
-        reservaExistente = agencia.obtenerReserva(contenidoSplit[0]);
+        reservaExistente = agencia.obtenerReserva(contenidoSplit[0]);                
 		if (reservaExistente != null) {
 			throw new ReservaNoCreada("Ya existe una reserva con este número de identificación.");
 		} else {
@@ -149,7 +149,7 @@ public class UsuarioImpl {
 			reservaNuevo = Persistencia.instanciarReserva(reservaNuevo, contenidoSplit, agencia);
             agencia.getListaReservas().add(reservaNuevo);
 			
-			util.enviarServidor("crear-reserva", data);
+			util.enviarServidor("crear-reserva", String.join("@@", contenidoSplit));
 		}
 	}
 	

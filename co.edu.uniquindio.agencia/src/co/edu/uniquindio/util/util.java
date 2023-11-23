@@ -2,27 +2,18 @@ package co.edu.uniquindio.util;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.lang.reflect.Field;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 import co.edu.uniquindio.agencia.controllers.ModelFactoryController;
-import co.edu.uniquindio.agencia.model.Cliente;
-import co.edu.uniquindio.agencia.model.Destino;
-import co.edu.uniquindio.agencia.model.GuiaTuristico;
-import co.edu.uniquindio.agencia.model.PaqueteTuristico;
 
 public class util {
-	@SuppressWarnings("unchecked")
-	public static Map<String, ArrayList<String>> convertirStringAMap(String jsonString) {
+    
+    // Método para convertir una cadena de texto en formato JSON a un objeto Map<String, ArrayList<String>>
+    @SuppressWarnings("unchecked")
+    public static Map<String, ArrayList<String>> convertirStringAMap(String jsonString) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.readValue(jsonString, Map.class);
@@ -31,8 +22,9 @@ public class util {
             return null;
         }
     }
-	
-	public static String convertirMapAString(Map<String, String> mensaje) {
+    
+    // Método para convertir un objeto Map<String, String> a una cadena de texto en formato JSON
+    public static String convertirMapAString(Map<String, String> mensaje) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
             return objectMapper.writeValueAsString(mensaje);
@@ -41,18 +33,22 @@ public class util {
             return null;
         }
     }
-	
-	public static void enviarServidor(String instruccion, String datos) {		
-		try {
-			ModelFactoryController modelFactoryController;
-			modelFactoryController = ModelFactoryController.getInstance();
+    
+    // Método para enviar datos al servidor a través de un controlador de modelo (ModelFactoryController)
+    public static void enviarServidor(String instruccion, String datos) {        
+        try {
+            // Obtener una instancia del controlador de modelo
+            ModelFactoryController modelFactoryController = ModelFactoryController.getInstance();
 
-			Map<String, String> mensaje = Map.of("accion", instruccion, "datos", datos);
-    		String jsonString = convertirMapAString(mensaje);            
-			modelFactoryController.getOutputStream().writeObject(jsonString);
-			modelFactoryController.getOutputStream().flush();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            // Crear un mensaje utilizando la instrucción y los datos proporcionados
+            Map<String, String> mensaje = Map.of("accion", instruccion, "datos", datos);
+            String jsonString = convertirMapAString(mensaje);
+
+            // Enviar el mensaje al servidor a través del flujo de salida del controlador de modelo
+            modelFactoryController.getOutputStream().writeObject(jsonString);
+            modelFactoryController.getOutputStream().flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

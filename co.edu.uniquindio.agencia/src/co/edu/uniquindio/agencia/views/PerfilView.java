@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
@@ -28,6 +29,8 @@ public class PerfilView extends ApplicationWindow {
     private Cliente clienteSession;
     
     GridData data;
+    Text txtUsuario;
+    Text txtContrasena;
     Text txtIdentificacion;
     Text txtNombreCompleto;
     Text txtCorreoElectronico;
@@ -46,14 +49,34 @@ public class PerfilView extends ApplicationWindow {
     	parent.setLayout(new GridLayout(2, false));
     	fillBlank(parent, 1);
 
-        Label lblTitulo = new Label(parent, SWT.NONE);
+    	Group grpHeader = new Group(parent, SWT.NONE);
+        data = new GridData(SWT.FILL, SWT.NONE, true, false);
+        data.horizontalSpan = 2;
+        grpHeader.setLayoutData(data);
+        grpHeader.setLayout(new GridLayout(3, false));
+    	
+        Label lblTitulo = new Label(grpHeader, SWT.NONE);
         lblTitulo.setText("Mi Perfil");
         Font font = new Font(Display.getDefault(), "Arial", 15, SWT.BOLD);
         lblTitulo.setFont(font);
         data = new GridData(SWT.FILL, SWT.FILL, true, false);
         lblTitulo.setLayoutData(data);
 
-        Button btnRegresar = new Button(parent, SWT.PUSH);
+        Button btnCorreo = new Button(grpHeader, SWT.PUSH);
+        btnCorreo.setText("Correo");
+        data = new GridData(SWT.RIGHT, SWT.FILL, true, false);
+        data.widthHint = 200;
+        btnCorreo.setLayoutData(data);
+        btnCorreo.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	close();
+            	EmailView emailView = new EmailView(getShell());
+            	emailView.open();
+            }
+        });
+        
+        Button btnRegresar = new Button(grpHeader, SWT.PUSH);
         btnRegresar.setText("Regresar");
         data = new GridData(SWT.RIGHT, SWT.FILL, true, false);
         data.widthHint = 200;
@@ -73,6 +96,20 @@ public class PerfilView extends ApplicationWindow {
 	    data.verticalIndent = 10;
 	    separador.setLayoutData(data);
         
+	    Label lblUsuario = new Label(parent, SWT.NONE);
+	    lblUsuario.setText("Usuario:");
+        txtUsuario = new Text(parent, SWT.BORDER);
+        data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+        data.widthHint = 300;
+        txtUsuario.setLayoutData(data);
+        
+        Label lblContrasena = new Label(parent, SWT.NONE);
+        lblContrasena.setText("Contraseña:");
+        txtContrasena = new Text(parent, SWT.BORDER);
+        data = new GridData(SWT.FILL, SWT.CENTER, true, false);
+        data.widthHint = 300;
+        txtContrasena.setLayoutData(data);
+	    
         Label lblIdentificacion = new Label(parent, SWT.NONE);
         lblIdentificacion.setText("Identificación:");
         txtIdentificacion = new Text(parent, SWT.BORDER);
@@ -128,8 +165,14 @@ public class PerfilView extends ApplicationWindow {
         btnActualizar.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-            	String mensaje = agencia.actualizarCliente(clienteSession, fieldsToString());
-            	MessageDialog.openInformation(getShell(), "Actualizar perfil", mensaje);
+            	String mensaje = agencia.actualizarCliente(clienteSession, fieldsToStringCliente());                  	            	
+            	if (mensaje.equals("La información del cliente a actualizar es igual a la original.")) {
+            		mensaje = agencia.actualizarUsuario(clienteSession.getUsuario(), fieldsToStringUsuario());
+            		
+                	MessageDialog.openInformation(getShell(), "Actualizar perfil", mensaje);
+            	} else {
+            		MessageDialog.openInformation(getShell(), "Actualizar perfil", mensaje);
+            	}            	
             }
         });
 
@@ -158,6 +201,8 @@ public class PerfilView extends ApplicationWindow {
     }
     
     private void loadSessionData() {
+    	txtUsuario.setText(clienteSession.getUsuario().getUsername());
+    	txtContrasena.setText(clienteSession.getUsuario().getContrasena());
     	txtIdentificacion.setText(clienteSession.getIdentificacion());
     	txtNombreCompleto.setText(clienteSession.getNombreCompleto());
     	txtCorreoElectronico.setText(clienteSession.getCorreoElectronico());
@@ -165,7 +210,7 @@ public class PerfilView extends ApplicationWindow {
     	txtDireccionResidencia.setText(clienteSession.getDireccionResidencia());    	
     }
     
-    private String fieldsToString() {
+    private String fieldsToStringCliente() {
         String identificacion = txtIdentificacion.getText();
         String nombre = txtNombreCompleto.getText();
         String correo = txtCorreoElectronico.getText();
@@ -185,6 +230,20 @@ public class PerfilView extends ApplicationWindow {
         stringBuilder.append(direccion).append("@@");
         stringBuilder.append(id).append("@@");
         stringBuilder.append(destinosBuscados);
+
+        return stringBuilder.toString();
+    }
+    
+    private String fieldsToStringUsuario() {        
+        String id = clienteSession.getId();     
+    	String usuario = txtUsuario.getText();
+        String contrasena = txtContrasena.getText();
+        
+        // Construir el formato de cadena
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(id).append("@@");  
+        stringBuilder.append(usuario).append("@@"); 
+        stringBuilder.append(contrasena);
 
         return stringBuilder.toString();
     }

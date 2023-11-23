@@ -20,6 +20,7 @@ public class ServerThread extends Thread {
     
     private Persistencia persistencia;
     
+    // Constructor que recibe un socket como parámetro
     public ServerThread(Socket socket) {
         this.clientSocket = socket;
     }
@@ -27,52 +28,69 @@ public class ServerThread extends Thread {
     @Override
     public void run() {
         try {
-        	this.outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+            // Inicializa los flujos de entrada y salida del socket
+            this.outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
             this.inputStream = new ObjectInputStream(clientSocket.getInputStream());
-        	if (!this.appInit) this.appInit = init();
-        	
-        	while (true) {
-        		handleInput();
-        	}
-                       
+            
+            // Si la aplicación no se ha inicializado, llama al método init() para enviar datos iniciales al cliente
+            if (!this.appInit) this.appInit = init();
+            
+            // Bucle infinito para manejar la entrada continuamente
+            while (true) {
+                handleInput();
+            }
         } catch (IOException | ClassNotFoundException e){
-        	//e.printStackTrace();
-        };
+            // Maneja excepciones de entrada/salida y de clase no encontrada
+            // e.printStackTrace();  // Comentado para evitar la impresión de la pila de excepciones
+        }
     }
     
+    // Inicializa la aplicación enviando datos iniciales al cliente
     private boolean init() {
-    	try {
-    		String jsonString = Serializar.convertirMapAString(Persistencia.obtenerDatos());
-			outputStream.writeObject(jsonString);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-    	return true;
+        try {
+            // Convierte los datos obtenidos de la persistencia a formato JSON y los envía al cliente
+            String jsonString = Serializar.convertirMapAString(Persistencia.obtenerDatos());
+            outputStream.writeObject(jsonString);
+        } catch (IOException e) {
+            // Maneja excepciones de entrada/salida
+            e.printStackTrace();
+        }
+        return true;
     }
     
-    private void handleInput() throws ClassNotFoundException, IOException {    	            
-		Object data = this.inputStream.readObject();
-    	String string = (String) data;
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		JsonNode jsonNode = objectMapper.readTree(string);
-		String[] instruccion = jsonNode.get("accion").asText().split("-");                
+    // Maneja la entrada recibida desde el cliente
+    private void handleInput() throws ClassNotFoundException, IOException {                    
+        // Lee un objeto desde el flujo de entrada
+        Object data = this.inputStream.readObject();
+        String string = (String) data;
+        
+        // Convierte la cadena JSON en un objeto JsonNode utilizando la biblioteca Jackson
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode jsonNode = objectMapper.readTree(string);
+        
+        // Extrae la acción, entidad e información de datos del JsonNode
+        String[] instruccion = jsonNode.get("accion").asText().split("-");                
         String base_instruccion = instruccion[0];
         String entidad_instruccion = instruccion[1];
         String datos = jsonNode.get("datos").asText();
         
+        // Realiza acciones según la instrucción recibida
         switch (base_instruccion) {
-	        case "crear":
-				Persistencia.escribirLinea(entidad_instruccion, datos);
-	            break;
-	        case "actualizar":
-    			Persistencia.actualizarLinea(entidad_instruccion, datos);
-	        	break;
-	        case "eliminar":
-    			Persistencia.eliminarLinea(entidad_instruccion, datos);
-	        	break;
-	        default:
-	            System.out.println("Acción no reconocida: " + instruccion);
-	        }
+            case "crear":
+                // Crea una nueva línea en la entidad especificada con los datos proporcionados
+                Persistencia.escribirLinea(entidad_instruccion, datos);
+                break;
+            case "actualizar":
+                // Actualiza una línea en la entidad especificada con los datos proporcionados
+                Persistencia.actualizarLinea(entidad_instruccion, datos);
+                break;
+            case "eliminar":
+                // Elimina una línea en la entidad especificada con los datos proporcionados
+                Persistencia.eliminarLinea(entidad_instruccion, datos);
+                break;
+            default:
+                // Imprime un mensaje de error si la acción no es reconocida
+                System.out.println("Acción no reconocida: " + instruccion);
+        }
     }
 }

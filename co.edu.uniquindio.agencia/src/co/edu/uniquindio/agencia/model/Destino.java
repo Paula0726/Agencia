@@ -24,9 +24,11 @@ public class Destino implements Serializable {
     private List<Integer> estrellas;
     private List<String> comentarios;
     
+    // Método para convertir la información del cliente en una cadena de texto
     public String convertirEnCadena() {
         StringBuilder cadena = new StringBuilder();
 
+        // Concatenación de los atributos del cliente separados por "@@"
         cadena.append(id)
             .append("@@").append(nombre)
             .append("@@").append(ciudad)

@@ -48,38 +48,54 @@ public class IniciarSesionView extends ApplicationWindow {
         textContrasena = new Text(parent, SWT.BORDER | SWT.PASSWORD);
         textContrasena.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
     	
+        // Crear un botón para iniciar sesión
         Button btnIniciarSesion = new Button(parent, SWT.NONE);
         btnIniciarSesion.setText("Iniciar Sesión");
+
+        // Agregar un listener para manejar el evento de selección del botón
         btnIniciarSesion.addSelectionListener(new SelectionAdapter() {
             @Override
             public void widgetSelected(SelectionEvent e) {
-            	boolean loginCliente = agencia.getUsuario().verificarInicioSesion(textUsuario.getText(), textContrasena.getText());	
-            	boolean loginAdmin = agencia.getAdministrador().verificarInicioSesion(textUsuario.getText(), textContrasena.getText());
+                // Verificar el inicio de sesión como cliente
+                boolean loginCliente = agencia.getUsuario().verificarInicioSesion(textUsuario.getText(), textContrasena.getText());	
+                
+                // Verificar el inicio de sesión como administrador
+                boolean loginAdmin = agencia.getAdministrador().verificarInicioSesion(textUsuario.getText(), textContrasena.getText());
 
-            	if (loginCliente) {
-            		Usuario usuario = agencia.obtenerUsuario(textUsuario.getText());            		
-            		Cliente cliente = agencia.obtenerClienteId(usuario.getId());            		
-            		
-            		agencia.setClienteSession(cliente);
-            		modelFactoryController.setAgencia(agencia);
-            		
-            		close();
-            		PrincipalView principalView = new PrincipalView(getShell());
-            		principalView.open();
-            		
-                 	MessageDialog.openInformation(getShell(), "Inicio de Sesión", "¡Inicio de sesión exitoso como usuario!");
-            		
-            	} else if (loginAdmin) {
-            		close();
-            		PaqueteTuristicoView paqueteTuristicoView = new PaqueteTuristicoView(getShell());
-            		paqueteTuristicoView.open();
-                 	MessageDialog.openInformation(getShell(), "Inicio de Sesión", "¡Inicio de sesión exitoso como administrador!");            		
-            	} else {
-            		
-            		MessageDialog.openInformation(getShell(), "Inicio de Sesión", "Por favor, verifica las credenciales.");
-            	}
+                // Procesar el resultado del inicio de sesión
+                if (loginCliente) {
+                    // Obtener el usuario y cliente correspondiente
+                    Usuario usuario = agencia.obtenerUsuario(textUsuario.getText());            		
+                    Cliente cliente = agencia.obtenerClienteId(usuario.getId());            		
+
+                    // Establecer la sesión del cliente y configurar el controlador del modelo
+                    agencia.setClienteSession(cliente);
+                    modelFactoryController.setAgencia(agencia);
+
+                    // Cerrar la ventana actual e abrir la vista principal
+                    close();
+                    PrincipalView principalView = new PrincipalView(getShell());
+                    principalView.open();
+
+                    // Mostrar un mensaje informativo sobre el inicio de sesión exitoso como usuario
+                    MessageDialog.openInformation(getShell(), "Inicio de Sesión", "¡Inicio de sesión exitoso como usuario!");
+                    
+                } else if (loginAdmin) {
+                    // Cerrar la ventana actual e abrir la vista de paquetes turísticos
+                    close();
+                    PaqueteTuristicoView paqueteTuristicoView = new PaqueteTuristicoView(getShell());
+                    paqueteTuristicoView.open();
+                    
+                    // Mostrar un mensaje informativo sobre el inicio de sesión exitoso como administrador
+                    MessageDialog.openInformation(getShell(), "Inicio de Sesión", "¡Inicio de sesión exitoso como administrador!");            		
+                    
+                } else {
+                    // Mostrar un mensaje informativo si las credenciales son incorrectas
+                    MessageDialog.openInformation(getShell(), "Inicio de Sesión", "Por favor, verifica las credenciales.");
+                }
             }
         });
+
         
     	return parent;     	
     }
