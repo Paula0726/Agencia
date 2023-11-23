@@ -10,9 +10,12 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
@@ -80,6 +83,20 @@ public class EmailView extends ApplicationWindow {
         lblTitulo.setFont(font);
         data = new GridData(SWT.FILL, SWT.FILL, true, false);
         lblTitulo.setLayoutData(data);
+        
+        Button btnRegresar = new Button(parent, SWT.PUSH);
+        btnRegresar.setText("Regresar");
+        data = new GridData(SWT.RIGHT, SWT.FILL, true, false);
+        data.widthHint = 200;
+        btnRegresar.setLayoutData(data);
+        btnRegresar.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+            	close();
+            	PrincipalView principalView = new PrincipalView(getShell());
+            	principalView.open();
+            }
+        });
     	
         Group grpPaquetes = new Group(parent, SWT.NONE);
         grpPaquetes.setText("Bandeja de entrada");

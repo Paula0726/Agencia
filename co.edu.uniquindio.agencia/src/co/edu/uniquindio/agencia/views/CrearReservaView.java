@@ -219,8 +219,12 @@ public class CrearReservaView extends ApplicationWindow {
     	btnCrearReserva.addSelectionListener(new SelectionAdapter() {
     	    @Override
     	    public void widgetSelected(SelectionEvent e) {
-    	        // Verificar si un paquete ha sido seleccionado
-    	        if(paqueteSeleccionado == null) {
+    	    	// Verifica la cantidad de personas
+    	    	if (txtCantidadPersonas.getText().length() == 0) {
+    	            MessageDialog.openInformation(getShell(), "Crear reserva", "Debes agregar una cantidad.");                		
+
+    	        // Verificar si un paquete ha sido seleccionado    	            
+    	    	} else if(paqueteSeleccionado == null) {
     	            MessageDialog.openInformation(getShell(), "Crear reserva", "Debes seleccionar un paquete.");                		
     	        } 
     	        // Verificar si se ha seleccionado un guía
