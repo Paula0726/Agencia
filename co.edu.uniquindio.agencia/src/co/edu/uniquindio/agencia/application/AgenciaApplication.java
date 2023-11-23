@@ -46,7 +46,6 @@ public class AgenciaApplication {
 			modelFactoryController.inicializarDatos(serverMessage, inputStream, outputStream);
 	        modelFactoryController.start();
 	        
-
 	        Display display = Display.getDefault();	        
 			Realm.runWithDefault(SWTObservables.getRealm(display), new Runnable() {
 				public void run() {

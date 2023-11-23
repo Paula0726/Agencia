@@ -1,5 +1,8 @@
 nov. 12, 2023 9:09:20 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
 INFORMACIÓN: INFO: DATOS INICIALIZADOS
+
+
+
 nov. 12, 2023 9:42:41 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
 INFORMACIÓN: INFO: DATOS INICIALIZADOS
 nov. 15, 2023 10:27:52 A. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
@@ -2395,4 +2398,30 @@ INFORMACIÓN: INFO: DATOS INICIALIZADOS
 nov. 22, 2023 2:24:35 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
 INFORMACIÓN: INFO: DATOS INICIALIZADOS
 nov. 22, 2023 3:14:58 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 4:42:36 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 4:43:08 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 4:44:07 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 5:26:35 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 5:29:39 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 5:38:25 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 5:40:14 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 5:40:27 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 7:51:24 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 7:56:33 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 7:57:44 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 7:58:31 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
+INFORMACIÓN: INFO: DATOS INICIALIZADOS
+nov. 22, 2023 8:07:18 P. M. co.edu.uniquindio.servidor.persistencia.Persistencia logging
 INFORMACIÓN: INFO: DATOS INICIALIZADOS

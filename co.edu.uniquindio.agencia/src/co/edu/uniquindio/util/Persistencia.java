@@ -245,7 +245,7 @@ public class Persistencia {
         Cliente clienteEncontrado = agencia.getListaClientes().stream()
                 .filter(cliente -> cliente.getId().equals(idCliente))
                 .findFirst()
-                .orElse(null);            
+                .orElse(null);
         reserva.setCliente(clienteEncontrado);              
         reserva.setCantidadPersonas(Integer.parseInt(contenidoSplit[4]));
         String idPaquete = contenidoSplit[5];

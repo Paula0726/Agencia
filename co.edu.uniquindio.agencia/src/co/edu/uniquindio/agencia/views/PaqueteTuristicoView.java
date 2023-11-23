@@ -125,7 +125,7 @@ public class PaqueteTuristicoView extends ApplicationWindow {
                 StarterView view = new StarterView(getShell());
                 view.open();
             }
-        });
+        });       
     	
         Group grpTables = new Group(parent, SWT.NONE);
         grpTables.setText("Tabla de paquetes turísticos:");

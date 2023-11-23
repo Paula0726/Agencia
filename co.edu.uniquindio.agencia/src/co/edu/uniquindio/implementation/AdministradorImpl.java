@@ -44,10 +44,10 @@ public class AdministradorImpl {
         authAdmins.put("admin3", "super_admin3");
     }
 
+	// Funcion para crear destino
 	public void crearDestino(String data) throws DestinoNoCreado { 
 	    Destino destinoExistente = null;
 	    Destino destinoNuevo = null;
-
 	    String[] contenidoSplit = data.split("@@");
 
 	    destinoExistente = agencia.obtenerDestino(contenidoSplit[1]);
@@ -84,7 +84,7 @@ public class AdministradorImpl {
 		        util.enviarServidor("actualizar-destino", dataDestinoNuevo);
 		    } finally {
 			    Destino destino = agencia.obtenerDestino(contenidoSplitNuevo[1]);
-		    	Persistencia.instanciarDestino(destino, contenidoSplitNuevo);	    	
+		    	Persistencia.instanciarDestino(destino, contenidoSplitNuevo);	
 		    }
 		}
 	}

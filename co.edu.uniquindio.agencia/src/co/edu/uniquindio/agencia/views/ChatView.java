@@ -53,7 +53,8 @@ public class ChatView extends ApplicationWindow {
         Group container_chat = new Group(parent, SWT.NONE);
         container_chat.setLayout(new GridLayout(1, false));
         container_chat.setText("Ventana de chat");
-        chatText = new Text(container_chat, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);
+        chatText = new Text(container_chat, SWT.MULTI | SWT.BORDER | SWT.WRAP | SWT.V_SCROLL);        
+        
         GridData data = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
         data.heightHint = 50;
         data.widthHint = 300;
