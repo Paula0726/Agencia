@@ -38,7 +38,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Agencia implements IAgenciaService {		
-	
+		
 	private AdministradorImpl administrador;
 	private UsuarioImpl usuario;
 	private Cliente clienteSession;
@@ -57,10 +57,24 @@ public class Agencia implements IAgenciaService {
 		return this;
 	}
 	
-	public Cliente obtenerCliente(String identificacion) {
+	/**
+     * Método para obtener un cliente por identificación de manera recursiva.
+     *
+     * @param identificacion Identificación del cliente a buscar.
+     * @return Cliente encontrado, o null si no se encuentra.
+     */
+    public Cliente obtenerCliente(String identificacion) {
         return obtenerClienteRecursivo(listaClientes, identificacion, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un cliente por identificación.
+     *
+     * @param clientes      Lista de clientes a buscar.
+     * @param identificacion Identificación del cliente a buscar.
+     * @param index          Índice actual en la lista.
+     * @return Cliente encontrado, o null si no se encuentra.
+     */
     private Cliente obtenerClienteRecursivo(List<Cliente> clientes, String identificacion, int index) {
         if (index < clientes.size()) {
             Cliente cliente = clientes.get(index);
@@ -72,11 +86,25 @@ public class Agencia implements IAgenciaService {
             return null;
         }
     }
-    
+
+    /**
+     * Método para obtener un cliente por ID de manera recursiva.
+     *
+     * @param id ID del cliente a buscar.
+     * @return Cliente encontrado, o null si no se encuentra.
+     */
     public Cliente obtenerClienteId(String id) {
         return obtenerClienteRecursivoId(listaClientes, id, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un cliente por ID.
+     *
+     * @param clientes Lista de clientes a buscar.
+     * @param id       ID del cliente a buscar.
+     * @param index    Índice actual en la lista.
+     * @return Cliente encontrado, o null si no se encuentra.
+     */
     private Cliente obtenerClienteRecursivoId(List<Cliente> clientes, String id, int index) {
         if (index < clientes.size()) {
             Cliente cliente = clientes.get(index);
@@ -89,10 +117,24 @@ public class Agencia implements IAgenciaService {
         }
     }
 	
+    /**
+     * Método para obtener un destino por nombre de manera recursiva.
+     *
+     * @param nombre Nombre del destino a buscar.
+     * @return Destino encontrado, o null si no se encuentra.
+     */
     public Destino obtenerDestino(String nombre) {
         return obtenerDestinoRecursivo(listaDestinos, nombre, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un destino por nombre.
+     *
+     * @param destinos Lista de destinos a buscar.
+     * @param nombre   Nombre del destino a buscar.
+     * @param index    Índice actual en la lista.
+     * @return Destino encontrado, o null si no se encuentra.
+     */
     private Destino obtenerDestinoRecursivo(List<Destino> destinos, String nombre, int index) {
         if (index < destinos.size()) {
             Destino destino = destinos.get(index);
@@ -104,11 +146,25 @@ public class Agencia implements IAgenciaService {
             return null;
         }
     }
-	
+
+    /**
+     * Método para obtener un paquete turístico por nombre de manera recursiva.
+     *
+     * @param nombre Nombre del paquete turístico a buscar.
+     * @return Paquete turístico encontrado, o null si no se encuentra.
+     */
     public PaqueteTuristico obtenerPaqueteTuristico(String nombre) {
         return obtenerPaqueteTuristicoRecursivo(listaPaquetesTuristicos, nombre, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un paquete turístico por nombre.
+     *
+     * @param paquetes Lista de paquetes turísticos a buscar.
+     * @param nombre   Nombre del paquete turístico a buscar.
+     * @param index    Índice actual en la lista.
+     * @return Paquete turístico encontrado, o null si no se encuentra.
+     */
     private PaqueteTuristico obtenerPaqueteTuristicoRecursivo(List<PaqueteTuristico> paquetes, String nombre, int index) {
         if (index < paquetes.size()) {
             PaqueteTuristico paquete = paquetes.get(index);
@@ -120,11 +176,25 @@ public class Agencia implements IAgenciaService {
             return null;
         }
     }
-    
+
+    /**
+     * Método para obtener un paquete turístico por ID de manera recursiva.
+     *
+     * @param id ID del paquete turístico a buscar.
+     * @return Paquete turístico encontrado, o null si no se encuentra.
+     */
     public PaqueteTuristico obtenerPaqueteTuristicoId(String id) {
         return obtenerPaqueteTuristicoRecursivoId(listaPaquetesTuristicos, id, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un paquete turístico por ID.
+     *
+     * @param paquetes Lista de paquetes turísticos a buscar.
+     * @param id       ID del paquete turístico a buscar.
+     * @param index    Índice actual en la lista.
+     * @return Paquete turístico encontrado, o null si no se encuentra.
+     */
     private PaqueteTuristico obtenerPaqueteTuristicoRecursivoId(List<PaqueteTuristico> paquetes, String id, int index) {
         if (index < paquetes.size()) {
             PaqueteTuristico paquete = paquetes.get(index);
@@ -136,11 +206,25 @@ public class Agencia implements IAgenciaService {
             return null;
         }
     }
-	
+
+    /**
+     * Método para obtener un guía turístico por identificación de manera recursiva.
+     *
+     * @param identificacion Identificación del guía turístico a buscar.
+     * @return Guía turístico encontrado, o null si no se encuentra.
+     */
     public GuiaTuristico obtenerGuiaTuristico(String identificacion) {
         return obtenerGuiaTuristicoRecursivo(listaGuiasTuristicos, identificacion, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un guía turístico por identificación.
+     *
+     * @param guias          Lista de guías turísticos a buscar.
+     * @param identificacion Identificación del guía turístico a buscar.
+     * @param index          Índice actual en la lista.
+     * @return Guía turístico encontrado, o null si no se encuentra.
+     */
     private GuiaTuristico obtenerGuiaTuristicoRecursivo(List<GuiaTuristico> guias, String identificacion, int index) {
         if (index < guias.size()) {
             GuiaTuristico guia = guias.get(index);
@@ -152,11 +236,25 @@ public class Agencia implements IAgenciaService {
             return null;
         }
     }
-	
+
+    /**
+     * Método para obtener un usuario por nombre de usuario de manera recursiva.
+     *
+     * @param username Nombre de usuario a buscar.
+     * @return Usuario encontrado, o null si no se encuentra.
+     */
     public Usuario obtenerUsuario(String username) {
         return obtenerUsuarioRecursivo(listaUsuarios, username, 0);
     }
 
+    /**
+     * Método auxiliar para la búsqueda recursiva de un usuario por nombre de usuario.
+     *
+     * @param usuarios Lista de usuarios a buscar.
+     * @param username Nombre de usuario a buscar.
+     * @param index    Índice actual en la lista.
+     * @return Usuario encontrado, o null si no se encuentra.
+     */
     private Usuario obtenerUsuarioRecursivo(List<Usuario> usuarios, String username, int index) {
         if (index < usuarios.size()) {
             Usuario usuario = usuarios.get(index);
@@ -168,11 +266,27 @@ public class Agencia implements IAgenciaService {
             return null;
         }
     }
-	
+
+    /**
+     * Método para obtener una reserva por ID de manera recursiva.
+     *
+     * @param id ID de la reserva a buscar.
+     * @return Reserva encontrada, o null si no se encuentra.
+     */
     public Reserva obtenerReserva(String id) {
         return obtenerReservaRecursivo(listaReservas, id, 0);
     }
-
+    
+    /**
+     * Método auxiliar para la búsqueda recursiva de una reserva por ID.
+     *
+     * @param reservas Lista de reservas a buscar.
+     * @param id       ID de la reserva a buscar.
+     * @param reservas Lista de reservas a buscar.
+     * @param id       ID de la reserva a buscar.
+     * @param index    Índice actual en la lista.
+     * @return Reserva encontrada, o null si no se encuentra.
+     */
     private Reserva obtenerReservaRecursivo(List<Reserva> reservas, String id, int index) {
         if (index < reservas.size()) {
             Reserva reserva = reservas.get(index);
