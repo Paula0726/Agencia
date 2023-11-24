@@ -1,24 +1,24 @@
 Top destinos más reservados:
-Ciudad Histórica: 2
-Playa Paradisíaca: 2
-Montañas Misteriosas: 1
+Ciudad Histórica: 5
+Playa Paradisíaca: 4
+Montañas Misteriosas: 2
+Selva Aventurera: 2
 Pueblo Pintoresco: 1
-Cascada Misteriosa: 1
 
 Top paquetes más reservados:
-Encanto Boscoso: 1
-Tranquilidad Lacustre: 1
-Descubriendo la Historia: 1
-Aventura en la Selva: 1
-Aventura Montañosa: 1
+Descubriendo la Historia: 2
+Aventura en la Selva: 2
+Aventura Montañosa: 2
+Exploración Urbana: 2
+Misterios del Desierto: 2
 
 Guias mejor puntuados:
 Juan Guía: 3
-María Turismo: 5
-Carlos Aventura: 4
+María Turismo: 3
+Carlos Aventura: 3
 
 Destinos más buscados:
-Playa Paradisíaca: 4
+Playa Paradisíaca: 5
 Montañas Misteriosas: 6
 Ciudad Histórica: 3
 Selva Aventurera: 7
@@ -27,4 +27,4 @@ Pueblo Pintoresco: 1
 Lago Sereno: 9
 Bosque Encantado: 8
 Cascada Misteriosa: 8
-Volcán Activo: 5
+Volcán Activo: 4

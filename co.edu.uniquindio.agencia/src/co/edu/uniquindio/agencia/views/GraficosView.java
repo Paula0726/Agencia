@@ -52,14 +52,14 @@ public class GraficosView extends ApplicationWindow {
 	        getShell().setSize(800, 600);    
 	        getShell().setText("Gráficos");
 	       
-	        parent.setLayout(new GridLayout(4, false));
-	    	fillBlank(parent, 3);
+	        parent.setLayout(new GridLayout(5, false));
+	    	fillBlank(parent, 4);
 	    	
 	    	Label titleLabel = new Label(parent, SWT.NONE);
 		    titleLabel.setText("Gráfico de barras"); 
 		    titleLabel.setFont(new Font(parent.getDisplay(), "Arial", 20, SWT.BOLD));
 	        data = new GridData(SWT.CENTER, SWT.CENTER, false, false);
-		    data.horizontalSpan = 4; 
+		    data.horizontalSpan = 5; 
 		    titleLabel.setLayoutData(data);
 	    			    
 	    	Button btnPaquete = new Button(parent, SWT.NONE);
@@ -97,6 +97,16 @@ public class GraficosView extends ApplicationWindow {
 	            	guiaView.open();
 	            }
 	        });
+	        
+	        Button btnGenerar = new Button(parent, SWT.NONE);
+	        btnGenerar.setText("Generar informe");
+	        btnGenerar.setLayoutData(new GridData(SWT.CENTER, SWT.NONE, false, false));
+	        btnGenerar.addSelectionListener(new SelectionAdapter() {
+	            @Override
+	            public void widgetSelected(SelectionEvent e) {
+	            	agencia.generarInforme("informe_1.txt");
+	            }
+	        });
 	        	        
 	        Button btnCerrar = new Button(parent, SWT.NONE);
 	        btnCerrar.setText("Cerrar");
@@ -124,7 +134,7 @@ public class GraficosView extends ApplicationWindow {
 	        // Configurar el diseño del Combo en el layout del parent
 	        GridData data = new GridData(SWT.FILL, SWT.FILL, true, false);
 	        data.verticalIndent = 20;
-	        data.horizontalSpan = 4;
+	        data.horizontalSpan = 5;
 	        combo.setLayoutData(data);
 
 	        // Agregar un Listener al Combo para manejar eventos de selección
@@ -181,7 +191,7 @@ public class GraficosView extends ApplicationWindow {
 
 	        // Configurar el diseño del gráfico en el diseño del padre
 	        GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-	        data.horizontalSpan = 4;
+	        data.horizontalSpan = 5;
 	        chart.setLayoutData(data);
 	        parent.layout();
 

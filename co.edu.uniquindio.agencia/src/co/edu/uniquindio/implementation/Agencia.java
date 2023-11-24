@@ -448,7 +448,8 @@ public class Agencia implements IAgenciaService {
 	public List<Map.Entry<String, Integer>> obtenerDestinosMasBuscados() {
 		return administrador.obtenerDestinosMasBuscados();
 	}	
-	
+
+	@Override
 	public void generarInforme(String nombreArchivo) { 
 		administrador.generarInforme(nombreArchivo);
 	}
