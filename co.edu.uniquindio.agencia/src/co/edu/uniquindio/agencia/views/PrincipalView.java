@@ -387,7 +387,7 @@ public class PrincipalView extends ApplicationWindow {
         String promedioFormateado = df.format(promedio);
         
         // Mostrar la puntuación media en la etiqueta correspondiente
-        puntuacionLabel.setText("Puntuación media: " + promedioFormateado);
+        puntuacionLabel.setText("Puntuación media: " + promedioFormateado + "\n" + "Clima: " + destinoSeleccionado.getClima());
         
         // Gestionar el listener del botón de comentarios
         if (comentariosButtonListener != null) {

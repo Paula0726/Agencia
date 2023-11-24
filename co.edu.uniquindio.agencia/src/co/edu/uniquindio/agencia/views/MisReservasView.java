@@ -53,8 +53,8 @@ public class MisReservasView extends ApplicationWindow {
 	private Destino destinoSeleccionado;
     
     GridData data;
-    TableViewer tableConfirmadasViewer; 
     TableViewer tablePasadasViewer; 
+    TableViewer tableConfirmadasViewer;
     
     // Clase MisReservasView que extiende de la clase Dialog de SWT
     public MisReservasView(Shell parentShell) {
@@ -218,7 +218,48 @@ public class MisReservasView extends ApplicationWindow {
     	        }
     	    }
     	});
-
+    	
+    	Group grpCancelar = new Group(parent, SWT.NONE);
+    	data = new GridData(SWT.FILL, SWT.FILL, true, false);
+        data.horizontalSpan = 3;
+        grpCancelar.setLayoutData(data);
+        grpCancelar.setLayout(new GridLayout(2, false));
+    	
+        Button btnCancelarReservaPendienteDestino = new Button(grpCancelar, SWT.PUSH);
+        btnCancelarReservaPendienteDestino.setText("Cancelar reserva pendiente");
+        btnCancelarReservaPendienteDestino.setLayoutData(new GridData(SWT.LEFT, SWT.NONE, true, false));
+        btnCancelarReservaPendienteDestino.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if (pendienteSeleccionada != null) {
+                	String mensaje = agencia.eliminarReserva(pendienteSeleccionada.getId());
+                	pendientes.remove(pendienteSeleccionada);
+                	
+                    MessageDialog.openInformation(getShell(), "Cancelar reserva", mensaje);
+                    tablePendientesViewer.refresh();
+                } else {
+                    MessageDialog.openInformation(getShell(), "Cancelar reserva", "Selecciona una reserva pendiente a cancelar.");
+                }
+            }
+        });
+        
+        Button btnCancelarReservaConfirmadaDestino = new Button(grpCancelar, SWT.PUSH);
+        btnCancelarReservaConfirmadaDestino.setText("Cancelar reserva confirmada");
+        btnCancelarReservaConfirmadaDestino.setLayoutData(new GridData(SWT.RIGHT, SWT.NONE, true, false));
+        btnCancelarReservaConfirmadaDestino.addSelectionListener(new SelectionAdapter() {
+            @Override
+            public void widgetSelected(SelectionEvent e) {
+                if (confirmadaSeleccionada != null) {
+                    String mensaje = agencia.eliminarReserva(confirmadaSeleccionada.getId());
+                    confirmadas.remove(confirmadaSeleccionada);
+                    
+                    MessageDialog.openInformation(getShell(), "Cancelar reserva", mensaje);
+                    tableConfirmadasViewer.refresh();
+                } else {
+                    MessageDialog.openInformation(getShell(), "Cancelar reserva", "Selecciona una reserva confirmada a cancelar.");
+                }
+            }
+        });
     	
     	Label separador = new Label(parent, SWT.SEPARATOR | SWT.HORIZONTAL);
         data = new GridData(SWT.FILL, SWT.FILL, true, false);
